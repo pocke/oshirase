@@ -19,6 +19,13 @@ func (s server) Notify(appName string, replacesID uint32, appIcon, summary, body
 	return 1, nil
 }
 
+func (s server) CloseNotification(id uint32) *dbus.Error {
+	// TODO: delete Notification
+	//       Emitte NotificationClosed signal.
+	//       if notification dosen't exists, return empty dbus-error
+	return nil
+}
+
 func (s server) GetServerInformation() (name, vendor, version, specVersion string, err *dbus.Error) {
 	return "GoNotify", "pocke", "0.0.1", "1.2", nil
 }
