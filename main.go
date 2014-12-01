@@ -8,8 +8,14 @@ import (
 
 type server string
 
-func (s server) Notify(app_name string, replaces_id uint32, app_icon, summary, body string, actions []string, hints map[string]dbus.Variant, expire_timeout int32) (uint32, *dbus.Error) {
+// action-icons, actions, body, body-hyperlinks, body-images, body-markup, icon-multi, icon-static, persistence, sound
+func (s server) GetCapabilities() ([]string, *dbus.Error) {
+	return []string{"body"}, nil
+}
+
+func (s server) Notify(appName string, replacesID uint32, appIcon, summary, body string, actions []string, hints map[string]dbus.Variant, expireTimeout int32) (uint32, *dbus.Error) {
 	fmt.Println(summary)
+	fmt.Println(body)
 	return 1, nil
 }
 
