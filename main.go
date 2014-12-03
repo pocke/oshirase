@@ -10,15 +10,24 @@ type Server struct {
 	conn *dbus.Conn
 }
 
+const (
+	CloseReasonExpired uint32 = iota + 1
+	CloseReasonDismissedByUser
+	CloseReasonCallToCloseNotification
+	CloseReasonUndefinedOrReserved
+)
+
 func NewServer() (*Server, error) {
 	conn, err := dbus.SessionBus()
 	if err != nil {
 		return nil, err
 	}
-	// XXX: reply処理
-	_, err = conn.RequestName("org.freedesktop.Notifications", dbus.NameFlagDoNotQueue)
+	reply, err := conn.RequestName("org.freedesktop.Notifications", dbus.NameFlagDoNotQueue)
 	if err != nil {
 		return nil, err
+	}
+	if reply != dbus.RequestNameReplyPrimaryOwner {
+		return nil, fmt.Errorf("name already token")
 	}
 
 	s := &Server{conn}
@@ -43,9 +52,9 @@ func (s Server) Notify(appName string, replacesID uint32, appIcon, summary, body
 }
 
 func (s Server) CloseNotification(id uint32) *dbus.Error {
-	// TODO: delete Notification
-	//       Emitte NotificationClosed signal.
+	// TODO: Do delete Notification, and return delete success?
 	//       if notification dosen't exists, return empty dbus-error
+	s.conn.Emit("/org/freedesktop/Notifications/NotificationClosed", "org.freedesktop.Notifications.NotificationClosed", id, CloseReasonCallToCloseNotification)
 	return nil
 }
 
