@@ -7,7 +7,10 @@ import (
 )
 
 type Server struct {
-	conn *dbus.Conn
+	conn    *dbus.Conn
+	name    string
+	vendor  string
+	version string
 }
 
 const (
@@ -17,7 +20,11 @@ const (
 	CloseReasonUndefinedOrReserved
 )
 
-func NewServer() (*Server, error) {
+const (
+	specVersion string = "1.2"
+)
+
+func NewServer(name, vendor, version string) (*Server, error) {
 	conn, err := dbus.SessionBus()
 	if err != nil {
 		return nil, err
@@ -30,7 +37,12 @@ func NewServer() (*Server, error) {
 		return nil, fmt.Errorf("name already token")
 	}
 
-	s := &Server{conn}
+	s := &Server{
+		conn:    conn,
+		name:    name,
+		vendor:  vendor,
+		version: version,
+	}
 
 	conn.Export(s, "/org/freedesktop/Notifications", "org.freedesktop.Notifications")
 
@@ -58,13 +70,12 @@ func (s Server) CloseNotification(id uint32) *dbus.Error {
 	return nil
 }
 
-func (s Server) GetServerInformation() (name, vendor, version, specVersion string, err *dbus.Error) {
-	// TODO: Hard coded result
-	return "GoNotify", "pocke", "0.0.1", "1.2", nil
+func (s Server) GetServerInformation() (name, vendor, version, specVer string, err *dbus.Error) {
+	return s.name, s.vendor, s.version, specVersion, nil
 }
 
 func main() {
-	_, err := NewServer()
+	_, err := NewServer("pocke", "pocket", "0.0.1")
 	if err != nil {
 		panic(err)
 	}
