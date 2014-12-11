@@ -33,7 +33,9 @@ func NewServer(name, vendor, version string) (*Server, error) {
 		version: version,
 	}
 
-	conn.Export(s, "/org/freedesktop/Notifications", "org.freedesktop.Notifications")
+	m := &messages{server: s}
+
+	conn.Export(m, "/org/freedesktop/Notifications", "org.freedesktop.Notifications")
 
 	return s, nil
 }
