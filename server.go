@@ -39,3 +39,7 @@ func NewServer(name, vendor, version string) (*Server, error) {
 
 	return s, nil
 }
+
+func (s Server) Close() error{
+  return s.conn.Close()
+}
