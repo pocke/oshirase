@@ -1,4 +1,4 @@
-package main
+package oshirase
 
 import (
 	"fmt"
@@ -72,15 +72,4 @@ func (s Server) CloseNotification(id uint32) *dbus.Error {
 
 func (s Server) GetServerInformation() (name, vendor, version, specVer string, err *dbus.Error) {
 	return s.name, s.vendor, s.version, specVersion, nil
-}
-
-func main() {
-	_, err := NewServer("pocke", "pocket", "0.0.1")
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("start")
-
-	select {}
 }
