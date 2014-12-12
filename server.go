@@ -18,6 +18,7 @@ func NewServer(name, vendor, version string) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	reply, err := conn.RequestName("org.freedesktop.Notifications", dbus.NameFlagDoNotQueue)
 	if err != nil {
 		return nil, err
@@ -40,6 +41,6 @@ func NewServer(name, vendor, version string) (*Server, error) {
 	return s, nil
 }
 
-func (s Server) Close() error{
-  return s.conn.Close()
+func (s Server) Close() error {
+	return s.conn.Close()
 }

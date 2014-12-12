@@ -18,7 +18,7 @@ const (
 )
 
 const (
-	specVersion string = "1.2"
+	SpecVersion string = "1.2"
 )
 
 // action-icons, actions, body, body-hyperlinks, body-images, body-markup, icon-multi, icon-static, persistence, sound
@@ -43,5 +43,5 @@ func (m messages) CloseNotification(id uint32) *dbus.Error {
 }
 
 func (m messages) GetServerInformation() (name, vendor, version, specVer string, err *dbus.Error) {
-	return m.server.name, m.server.vendor, m.server.version, specVersion, nil
+	return m.server.name, m.server.vendor, m.server.version, SpecVersion, nil
 }
