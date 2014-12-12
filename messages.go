@@ -1,10 +1,6 @@
 package oshirase
 
-import (
-	"fmt"
-
-	"github.com/godbus/dbus"
-)
+import "github.com/godbus/dbus"
 
 type messages struct {
 	server *Server
@@ -27,12 +23,29 @@ func (m messages) GetCapabilities() ([]string, *dbus.Error) {
 	return []string{"body"}, nil
 }
 
-func (m messages) Notify(appName string, replacesID uint32, appIcon, summary, body string, actions []string, hints map[string]dbus.Variant, expireTimeout int32) (uint32, *dbus.Error) {
-	// TODO: result
-	// TODO: Do notify
-	fmt.Println(summary)
-	fmt.Println(body)
-	return 1, nil
+func (m messages) Notify(appName string, replacesID uint32, appIcon, summary, body string, actions []string, hints map[string]dbus.Variant, expireTimeout int32) (id uint32, err *dbus.Error) {
+	if replacesID == 0 {
+		id = <-m.server.notifyID
+	} else {
+		id = replacesID
+	}
+
+	a := &NotifyArg{
+		AppName:       appName,
+		ID:            id,
+		AppIcon:       appIcon,
+		Summary:       summary,
+		Body:          body,
+		Actions:       actions,
+		Hints:         hints,
+		ExpireTimeout: expireTimeout,
+	}
+
+	if m.server.onNotify != nil {
+		m.server.onNotify(a)
+	}
+
+	return id, nil
 }
 
 func (m messages) CloseNotification(id uint32) *dbus.Error {
