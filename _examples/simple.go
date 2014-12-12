@@ -19,6 +19,7 @@ func main() {
 	}
 
 	srv.OnNotify(f)
+	srv.OnCloseNotification(func(_ uint32) bool { return true })
 
 	fmt.Println("start")
 

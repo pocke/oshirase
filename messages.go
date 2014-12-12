@@ -45,13 +45,22 @@ func (m messages) Notify(appName string, replacesID uint32, appIcon, summary, bo
 		m.server.onNotify(a)
 	}
 
-	// XXX: error is nil, ok?
+	// XXX: error is nil, That correct?
 	return id, nil
 }
 
 func (m messages) CloseNotification(id uint32) *dbus.Error {
-	// TODO: Do delete Notification, and return delete success?
-	//       if notification dosen't exists, return empty dbus-error
+	if m.server.onCloseNotification == nil {
+		return nil
+	}
+
+	ok := m.server.onCloseNotification(id)
+	// when id dose not exists
+	if !ok {
+		// XXX: That correct?
+		return dbus.NewError("org.freedesktop.Notifications.CloseNotification", nil)
+	}
+
 	m.server.conn.Emit("/org/freedesktop/Notifications/NotificationClosed", "org.freedesktop.Notifications.NotificationClosed", id, CloseReasonCallToCloseNotification)
 	return nil
 }

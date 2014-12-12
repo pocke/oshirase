@@ -7,12 +7,13 @@ import (
 )
 
 type Server struct {
-	conn     *dbus.Conn
-	name     string
-	vendor   string
-	version  string
-	onNotify func(*NotifyArg)
-	notifyID <-chan uint32
+	conn                *dbus.Conn
+	name                string
+	vendor              string
+	version             string
+	onNotify            func(*NotifyArg)
+	onCloseNotification func(uint32) bool
+	notifyID            <-chan uint32
 }
 
 func NewServer(name, vendor, version string) (*Server, error) {
@@ -58,4 +59,8 @@ func (s *Server) Close() error {
 
 func (s *Server) OnNotify(f func(*NotifyArg)) {
 	s.onNotify = f
+}
+
+func (s *Server) OnCloseNotification(f func(uint32) bool) {
+	s.onCloseNotification = f
 }
