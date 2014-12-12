@@ -45,6 +45,7 @@ func (m messages) Notify(appName string, replacesID uint32, appIcon, summary, bo
 		m.server.onNotify(a)
 	}
 
+	// XXX: error is nil, ok?
 	return id, nil
 }
 

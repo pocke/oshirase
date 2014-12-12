@@ -6,11 +6,10 @@ import (
 	"github.com/pocke/oshirase"
 )
 
-var f = func(n *oshirase.NotifyArg) error {
+var f = func(n *oshirase.NotifyArg) {
 	fmt.Println(n.ID)
 	fmt.Println(n.Summary)
 	fmt.Println(n.Body)
-	return nil
 }
 
 func main() {
