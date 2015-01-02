@@ -30,7 +30,7 @@ func (m messages) Notify(appName string, replacesID uint32, appIcon, summary, bo
 		id = replacesID
 	}
 
-	a := &NotifyArg{
+	a := &Notify{
 		AppName:       appName,
 		ID:            id,
 		AppIcon:       appIcon,

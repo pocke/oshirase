@@ -11,7 +11,7 @@ type Server struct {
 	name                string
 	vendor              string
 	version             string
-	onNotify            func(*NotifyArg)
+	onNotify            func(*Notify)
 	onCloseNotification func(uint32) bool
 	notifyID            <-chan uint32
 }
@@ -57,7 +57,7 @@ func (s *Server) Close() error {
 	return s.conn.Close()
 }
 
-func (s *Server) OnNotify(f func(*NotifyArg)) {
+func (s *Server) OnNotify(f func(*Notify)) {
 	s.onNotify = f
 }
 

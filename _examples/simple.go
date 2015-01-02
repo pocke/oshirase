@@ -6,7 +6,7 @@ import (
 	"github.com/pocke/oshirase"
 )
 
-var f = func(n *oshirase.NotifyArg) {
+var f = func(n *oshirase.Notify) {
 	fmt.Println(n.ID)
 	fmt.Println(n.Summary)
 	fmt.Println(n.Body)

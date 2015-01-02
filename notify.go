@@ -2,7 +2,7 @@ package oshirase
 
 import "github.com/godbus/dbus"
 
-type NotifyArg struct {
+type Notify struct {
 	AppName       string
 	ID            uint32
 	AppIcon       string
