@@ -12,7 +12,3 @@ before_install:
 
 script:
   - "go version | grep '1.3' && go test -v --race || $HOME/gopath/bin/goveralls -repotoken $COVERALLS_TOKEN"
-
-env:
-  global:
-    secure: "Lp0CLsJj+T6IPlxY8CwNwUxhzdpNpVsNTSwKF/4edSzOKBF00phk4BZqRi3J3yTpOX59Z579fjBL4T5iHXapwxBhM605PbYPW1iMXkycqLSXbpy8gP7qgst3rEKaF9nrllFEqjgFN1BKza6ch8j3jmFxZ9pMreneLPxTq+sfr8U="
